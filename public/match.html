@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>VALO.KR — Match</title><link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header class="nav wrap"><a class="brand" href="/"><span class="brand-mark">V</span><span>VALO.KR</span></a><a class="back" href="/dashboard.html">← 대시보드</a></header>
+<main class="wrap match-page">
+<div id="match" class="panel glass"><div class="loading">경기 상세를 불러오는 중...</div></div>
+</main>
+<script>
+(async()=>{
+ const id=new URLSearchParams(location.search).get("id");
+ if(!id){document.querySelector("#match").innerHTML="<h2>경기 ID가 없습니다.</h2>";return;}
+ const r=await fetch("/api/matches/"+encodeURIComponent(id));
+ const box=document.querySelector("#match");
+ if(!r.ok){box.innerHTML="<h2>경기 정보를 불러오지 못했습니다.</h2><p class='note'>로그인 상태 또는 Riot API 상태를 확인해주세요.</p>";return;}
+ const d=await r.json(), m=d.match||{}, info=m.matchInfo||{};
+ const players=(m.players||[]).map(p=>`<div class="player-row"><span>${p.gameName||"Unknown"}#${p.tagLine||""}</span><span>${p.characterId||"—"}</span><span>${p.stats?.kills ?? "—"} / ${p.stats?.deaths ?? "—"} / ${p.stats?.assists ?? "—"}</span></div>`).join("");
+ box.innerHTML=`<span class="section-kicker">MATCH DETAIL</span><h1>${info.mapId||"VALORANT MATCH"}</h1><p>${info.queueId||"queue"} · ${info.gameVersion||""}</p><div class="match-meta"><b>경기 ID</b><span>${id}</span><b>게임 시간</b><span>${info.gameLengthMillis?Math.round(info.gameLengthMillis/60000)+"분":"—"}</span></div><div class="player-table"><div class="player-row head"><span>PLAYER</span><span>AGENT</span><span>K / D / A</span></div>${players||"<div class='loading'>플레이어 데이터가 없습니다.</div>"}</div><div class="notice">Performance Score: 공식 API에서 직접 제공되는 값이 아닌 경우 임의의 값을 공식 점수로 표시하지 않습니다.</div>`;
+})()
+</script>
+</body>
+</html>
