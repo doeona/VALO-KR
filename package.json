@@ -1,7 +1,7 @@
 {
   "name": "valo-kr-v5",
-  "version": "5.0.4",
-  "description": "VALO.KR local production skeleton compatible with Node.js 24",
+  "version": "5.1.0",
+  "description": "VALO.KR responsive personal match dashboard with current and peak rank UI, Node.js 24 compatible",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"

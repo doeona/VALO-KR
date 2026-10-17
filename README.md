@@ -1,34 +1,29 @@
-# VALO.KR V5.0.4 — Node.js 24 Clean Local Build
+# VALO.KR V5.1.0 — Rank Profile UI
 
-This local build is intentionally free of `better-sqlite3`, Python, node-gyp, and native database compilation.
+VALO.KR responsive Node.js site with current competitive rank and historical peak rank display areas.
 
 ## Windows quick start
-
-Open PowerShell in this folder:
 
 ```powershell
 npm.cmd install
 npm.cmd start
 ```
 
-Then open:
+Open `http://localhost:3000`.
 
-`http://localhost:3000`
+## Demo preview
 
-Health check:
+Set `ENABLE_DEV_MODE=true` in the local `.env` file or hosting environment, then open the home page and choose **데모 대시보드 보기**. The preview uses clearly labelled sample rank values; they are not real player data.
 
-`http://localhost:3000/api/health`
+## Render deployment
 
-## Optional demo login
+Build command: `npm install`
+Start command: `npm start`
 
-Create a `.env` file from `.env.example`, or set:
+After updating the GitHub repository, Render should deploy the new commit automatically. Keep secrets out of GitHub and configure them in Render Environment.
 
-```text
-ENABLE_DEV_MODE=true
-```
+## Riot integration status
 
-The local demo API is for UI testing only. Real Riot Sign On and Riot API access require a Riot Production application and approved credentials.
+The current/peak rank cards and `/api/rank` response contract are ready for later integration, but actual Riot RSO and production API access are **not implemented** in this build. Actual player rank data requires Riot approval and the approved endpoints/data scope. Historical peak rank may need to be derived from available season/act records; it is not guaranteed by a single universal endpoint.
 
-## Important
-
-This is a local test build. Before public launch, replace the demo auth/data paths with the approved Riot RSO/API integration, configure HTTPS, production secrets, legal contact/retention details, and review Riot policies.
+Demo values are for layout preview only and must not be presented as authentic player statistics.

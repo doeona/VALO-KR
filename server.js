@@ -49,7 +49,7 @@ app.get("/api/health", (req, res) => {
   res.json({
     ok: true,
     service: "VALO.KR",
-    version: "5.0.4",
+    version: "5.1.0",
     storage: "file",
     node: process.version
   });
@@ -73,6 +73,37 @@ app.get("/api/me", (req, res) => {
   if (!user) return res.json({ authenticated: false, user: null });
 
   res.json({ authenticated: true, user });
+});
+
+// Rank data contract. Demo values are visibly marked and must never be treated as real Riot data.
+app.get("/api/rank", (req, res) => {
+  const token = req.cookies?.valo_session;
+  const session = token ? db.sessions[hash(token)] : null;
+  if (!session || session.expiresAt < now()) {
+    return res.json({
+      available: false,
+      notice: "실제 현재 랭크와 역대 최고 랭크는 승인된 Riot API/RSO 연동 후 표시됩니다."
+    });
+  }
+  const user = db.users[session.userId];
+  if (!user) {
+    return res.json({ available: false, notice: "플레이어 정보를 찾을 수 없습니다." });
+  }
+  if (user.demo) {
+    return res.json({
+      available: true,
+      demo: true,
+      current: user.rankPreview.current,
+      peak: user.rankPreview.peak
+    });
+  }
+  if (!user.rankData) {
+    return res.json({
+      available: false,
+      notice: "이 계정의 랭크 데이터가 아직 연결되지 않았습니다. 승인된 Riot API 연동 후 표시됩니다."
+    });
+  }
+  return res.json({ available: true, demo: false, ...user.rankData });
 });
 
 app.get("/auth/login", (req, res) => {
@@ -116,6 +147,11 @@ app.post("/api/dev/login", (req, res) => {
     tagLine,
     region: "kr",
     demo: true,
+    // Clearly labelled preview values for UI testing only; not sourced from Riot.
+    rankPreview: {
+      current: { tierName: "불멸 2", rr: 67, season: "현재 액트 (예시)", updatedAt: "예시 데이터" },
+      peak: { tierName: "레디언트", season: "에피소드 8 · 액트 3 (예시)", updatedAt: "예시 기록" }
+    },
     createdAt: new Date().toISOString()
   };
 
@@ -129,7 +165,7 @@ app.post("/api/dev/login", (req, res) => {
   res.cookie("valo_session", rawToken, {
     httpOnly: true,
     sameSite: "lax",
-    secure: false,
+    secure: process.env.NODE_ENV === "production",
     maxAge: 1000 * 60 * 60 * 24 * 7
   });
 
@@ -220,5 +256,5 @@ app.use((req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`VALO.KR V5.0.4 listening on :${PORT}`);
+  console.log(`VALO.KR V5.1.0 listening on :${PORT}`);
 });

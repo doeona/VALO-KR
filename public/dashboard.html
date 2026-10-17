@@ -15,10 +15,36 @@
   <div class="profile-orb">V</div>
 </section>
 
+<section class="rank-section">
+  <div class="rank-section-head">
+    <div><span class="section-kicker">COMPETITIVE PROFILE</span><h2>경쟁전 랭크</h2></div>
+    <span id="rankSource" class="rank-source">데이터 확인 중</span>
+  </div>
+  <div class="rank-grid">
+    <article class="rank-card glass current-rank">
+      <div class="rank-card-top"><span>현재 랭크</span><span class="rank-pill">CURRENT</span></div>
+      <div class="rank-main">
+        <div id="currentRankEmblem" class="rank-emblem">◆</div>
+        <div><strong id="currentRankName">불러오는 중</strong><div id="currentRankRR" class="rank-sub">랭크 정보 확인 중</div></div>
+      </div>
+      <div class="rank-card-foot"><span id="currentRankSeason">현재 액트</span><span id="currentRankUpdated">—</span></div>
+    </article>
+    <article class="rank-card glass peak-rank">
+      <div class="rank-card-top"><span>역대 최고 랭크</span><span class="rank-pill peak-pill">PEAK</span></div>
+      <div class="rank-main">
+        <div id="peakRankEmblem" class="rank-emblem">♛</div>
+        <div><strong id="peakRankName">불러오는 중</strong><div id="peakRankSeason" class="rank-sub">최고 달성 시즌 확인 중</div></div>
+      </div>
+      <div class="rank-card-foot"><span>시즌별 기록 기준</span><span id="peakRankNote">—</span></div>
+    </article>
+  </div>
+  <p id="rankNotice" class="rank-notice">실제 랭크 데이터는 승인된 Riot API 연동 후 표시됩니다.</p>
+</section>
+
 <section class="stats-grid">
-  <div class="stat glass"><span>최근 경기</span><strong id="matchCount">—</strong><small>API에서 불러온 기록</small></div>
-  <div class="stat glass"><span>분석 점수</span><strong>—</strong><small>공식 API 미제공 항목</small></div>
-  <div class="stat glass"><span>데이터 연결</span><strong>ON</strong><small>RSO opt-in</small></div>
+  <div class="stat glass"><span>최근 경기</span><strong id="matchCount">—</strong><small>계정 기록 기준</small></div>
+  <div class="stat glass"><span>분석 점수</span><strong>—</strong><small>VALO.KR 분석 기능 준비 중</small></div>
+  <div class="stat glass"><span>데이터 연결</span><strong id="connectionState">DEMO</strong><small id="connectionCaption">테스트 계정</small></div>
 </section>
 
 <section class="panel glass">
